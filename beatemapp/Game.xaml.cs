@@ -72,7 +72,6 @@ namespace BeatEmApp
             {
                 Canvas.SetTop(Player2, Canvas.GetTop(BorderGame));
             }
-            collission
         }
         private void enemyMovement()
         {

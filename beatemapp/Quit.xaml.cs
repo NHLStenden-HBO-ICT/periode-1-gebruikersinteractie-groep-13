@@ -33,7 +33,7 @@ namespace BeatEmApp
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            if (EmailPlayer.Text != "email speler 1" && EmailPlayer2.Text != "email speler 2")
+            if (EmailPlayer.Text != "" && EmailPlayer2.Text != " ")
             {
                 Window Main = new MainWindow();
                 this.Visibility = Visibility.Hidden;

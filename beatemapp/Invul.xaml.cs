@@ -32,7 +32,7 @@ namespace BeatEmApp
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            if (Nameplayer.Text != "naam speler 1" && Nameplayer2.Text != "naamspeler 2")
+            if (Nameplayer.Text != " " && Nameplayer2.Text != " ")
             {
                 Window Game = new Game();
                 this.Visibility = Visibility.Hidden;
