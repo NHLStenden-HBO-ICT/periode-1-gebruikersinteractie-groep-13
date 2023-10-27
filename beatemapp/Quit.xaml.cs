@@ -26,23 +26,16 @@ namespace BeatEmApp
 
         public void OnClick1(object sender, RoutedEventArgs e)
         {
-            Window menu = new Menu();
+            Window menu = new Menu("null", "null", "null", "null");
             this.Visibility = Visibility.Hidden;
             menu.Show();
         }
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            if (EmailPlayer.Text != "" && EmailPlayer2.Text != " ")
-            {
                 Window Main = new MainWindow();
                 this.Visibility = Visibility.Hidden;
                 Main.Show();
-            }
-            else
-            {
-                error.Visibility = Visibility.Visible;
-            }
         }
     }
 }

@@ -11,8 +11,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace BeatEmApp
 {
@@ -25,20 +27,33 @@ namespace BeatEmApp
         private ImageBrush PlayerSkin = new ImageBrush();
         private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2;
         private DispatcherTimer GameTimer = new DispatcherTimer();
-        public Game()
+
+        //testen opslaan score. Wordt vervangen met echte score.
+        int Testscore1 = 200;
+        int testscore2 = 300;
+        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email)
         {
             InitializeComponent();
+
+           string name = PlayerName;
+           string name2 = Player2Name;
+
+            Player_contents.Text = name;
+            Player2_contents.Text = name2;
+            Player_email.Text = PlayerEmail;
+            Player2_email.Text = Player2Email;
 
             GameTimer.Interval = TimeSpan.FromMilliseconds(20);
             GameTimer.Tick += GameEngine;
             GameTimer.Start();
+
 
             PlayerCanvas.Focus();
         }
 
         public void OnClick1(object sender, RoutedEventArgs e)
         {
-            Window Menu = new Menu();
+            Window Menu = new Menu(Player_contents.Text, Player2_contents.Text, Player_email.Text, Player2_email.Text);
             this.Visibility = Visibility.Hidden;
             Menu.Show();
         }
@@ -158,10 +173,11 @@ namespace BeatEmApp
 
             if (e.Key == Key.Enter)
             {
-                Window GameOver = new GameOver();
+                Window GameOver = new GameOver(Player_contents.Text, Player2_contents.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
                 this.Visibility = Visibility.Hidden;
                 GameOver.Show();
             }
+
         }
 
         public void OnKeyUp(object sender, KeyEventArgs e)

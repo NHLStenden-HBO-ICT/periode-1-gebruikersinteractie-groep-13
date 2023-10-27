@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
+using System.Data.SqlClient;
 
 namespace BeatEmApp
 {
@@ -23,6 +24,32 @@ namespace BeatEmApp
         public Leaderboard()
         {
             InitializeComponent();
+            getData();
+        }
+
+        public void getData()
+        {
+            string Connectstring = Properties.Settings.Default.Database1ConnectionString;
+            SqlConnection conn = new SqlConnection(Connectstring);
+            SqlCommand sqlcmd;
+            string sql = "SELECT TOP 10 Naam, score FROM PlayerInfo WHERE score Is NOT NULL ORDER BY score DESC";
+            try
+            {
+                conn.Open();
+                sqlcmd = new SqlCommand(sql, conn);
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                while (reader.Read())
+                {
+                        string name = reader.GetString(0);
+                        int score = reader.GetInt32(1);
+                        string scoreText = Convert.ToString(score);
+                        datalist.Items.Add(name + "   " + scoreText);
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return;
         }
 
         public void OnClick1(object sender, RoutedEventArgs e)
@@ -35,7 +62,7 @@ namespace BeatEmApp
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            Window Menu = new Menu();
+            Window Menu = new Menu("null", "null", "null", "null");
             this.Visibility = Visibility.Hidden;
             Menu.Show();
 

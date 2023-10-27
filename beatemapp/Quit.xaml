@@ -11,10 +11,6 @@
         <Button x:Name="quit" Background="#F3C9A6" Content="submit" Click="OnClick2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="45" Width="124" Margin="0,355,0,0"/>
         <TextBox x:Name="info" HorizontalAlignment="Center" Margin="0,217,0,0" TextWrapping="Wrap" FontSize="16" Text="extra optioneel info" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="48" Width="214"/>
         <TextBox x:Name="error" HorizontalAlignment="Center" Margin="0,285,0,0" TextWrapping="Wrap" FontSize="16" Visibility="Hidden" Text="error: emails niet ingevuld" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="65" Width="214"/>
-        <TextBox x:Name="EmailPlayer" FontFamily="Regular 400" Text=" " TextAlignment="Center" Background="#6D82AC" Margin="308,86,338,300"/>
-        <TextBlock HorizontalAlignment="Left" Margin="308,66,0,0" TextWrapping="Wrap" TextAlignment="Center" Background="#33D6F5" VerticalAlignment="Top" Height="20" Width="141"><Run Language="nl-nl" Text="vul in email speler 1"/></TextBlock>
-        <TextBox x:Name="EmailPlayer2" FontFamily="Regular 400" Text=" " TextAlignment="Center" Background="#6D82AC" Margin="308,159,338,227"/>
-        <TextBlock HorizontalAlignment="Left" Margin="308,139,0,0" TextWrapping="Wrap" TextAlignment="Center" Background="#33D6F5" VerticalAlignment="Top" Height="20" Width="141"><Run Language="nl-nl" Text="vul in email speler 2"/></TextBlock>
         <TextBlock x:Name="Error_Copy" HorizontalAlignment="Left" Margin="66,75,0,0" TextWrapping="Wrap"  FontSize="20" Text="email sportschool" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="190"/>
         <TextBlock x:Name="Error_Copy1" HorizontalAlignment="Left" Margin="553,75,0,0" TextWrapping="Wrap"  FontSize="20" Text="info over sportschool" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="190"/>
     </Grid>

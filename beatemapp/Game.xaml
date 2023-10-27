@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatEmApp"
+
         mc:Ignorable="d"
         Title="Game" Height="450" Width="800">
     <Grid>
@@ -19,6 +20,8 @@
         <Button Name="menu" Background="#F3C9A6"  Content="menu" FontFamily="Arial" Click="OnClick1" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="41" Width="120"/>
         <TextBlock x:Name="Player_contents" HorizontalAlignment="Left" Margin="100,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock x:Name="Player2_contents" HorizontalAlignment="Left" Margin="100,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
+        <TextBlock x:Name="Player_email" HorizontalAlignment="Left" Margin="100,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" Visibility="Hidden" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
+        <TextBlock x:Name="Player2_email" HorizontalAlignment="Left" Margin="100,10,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" Visibility="Hidden" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock x:Name="vijand1_levens" HorizontalAlignment="Left" Margin="567,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock x:Name="vijand2_levens" HorizontalAlignment="Left" Margin="567,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock HorizontalAlignment="Left" Margin="29,63,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="p1" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>

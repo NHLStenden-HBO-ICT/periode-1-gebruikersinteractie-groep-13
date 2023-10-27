@@ -19,14 +19,14 @@ namespace BeatEmApp
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu()
+        public Menu(string PlayerName, string Player2Name, string PlayerEmail, string PlayerEmail2)
         {
             InitializeComponent();
         }
 
         private void OnClick1(object sender, RoutedEventArgs e)
         {
-           Window Game = new Game();
+           Window Game = new Game("null", "null", "null", "null");
            this.Visibility = Visibility.Hidden;
            Game.Show();
         }

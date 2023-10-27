@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Margin="0,225,0,-6">
-        <TextBlock HorizontalAlignment="Left" Height="108" Margin="455,41,0,0" Background="#586C70" VerticalAlignment="Top" Width="248"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" FontFamily="Regular 400" BorderThickness="0" Background="Transparent" Margin="525,53,97,66"/>
+        <TextBlock HorizontalAlignment="Left" Height="123" Margin="455,41,0,0" Background="#586C70" VerticalAlignment="Top" Width="248"/>
+        <ItemsControl x:Name="LeaderScores" d:ItemsSource="{d:SampleData ItemCount=5}" FontFamily="Regular 400" BorderThickness="0" Background="Transparent" Margin="525,67,97,10"/>
         <Button Name="start" Background="#F3C9A6"  Content="Start" Click="OnClick1" HorizontalAlignment="Left" Margin="73,10,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
         <Button Name="Leader" Background="#F3C9A6" Content="leaderboard" Click="OnClick2" HorizontalAlignment="Left" Margin="73,67,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
         <Button Name="help" Background="#F3C9A6"  Content="help" Click="OnClick3" HorizontalAlignment="Left" Margin="73,123,0,0" VerticalAlignment="Top" Height="41" Width="151"/>

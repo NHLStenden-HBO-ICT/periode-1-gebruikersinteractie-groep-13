@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace BeatEmApp
         public MainWindow()
         {
             InitializeComponent();
+            getData();
         }
 
         public void OnClick1(object sender, RoutedEventArgs e)
@@ -37,6 +39,32 @@ namespace BeatEmApp
             Window Leader = new Leaderboard();
             this.Visibility = Visibility.Hidden;
             Leader.Show();
+        }
+
+        public void getData()
+        {
+            string Connectstring = Properties.Settings.Default.Database1ConnectionString;
+            SqlConnection conn = new SqlConnection(Connectstring);
+            SqlCommand sqlcmd;
+            string sql = "SELECT TOP 5 Naam, score FROM PlayerInfo WHERE score Is NOT NULL ORDER BY score DESC";
+            try
+            {
+                conn.Open();
+                sqlcmd = new SqlCommand(sql, conn);
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                while (reader.Read())
+                {
+                        string name = reader.GetString(0);
+                        int score = reader.GetInt32(1);
+                        string scoreText = Convert.ToString(score);
+                        LeaderScores.Items.Add(name + "   " + scoreText);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return;
         }
 
         public void OnClick3(object sender, RoutedEventArgs e)

@@ -56,3 +56,8 @@ C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp.g.resources
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp.Properties.Resources.resources
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp.csproj.GenerateResource.cache
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp.csproj.CoreCompileInputs.cache
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\bin\Debug\Database1.mdf
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\bin\Debug\Database1_log.ldf
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp_Content.g.cs
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Win.g.cs
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Win.baml
