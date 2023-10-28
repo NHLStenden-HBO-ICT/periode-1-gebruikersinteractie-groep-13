@@ -23,7 +23,7 @@ namespace BeatEmApp
     public partial class Game : Window
     {
         private ImageBrush PlayerSkin = new ImageBrush();
-        private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2, playerAttack1;
+        private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2;
         private DispatcherTimer GameTimer = new DispatcherTimer();
         public Game()
         {
@@ -45,96 +45,33 @@ namespace BeatEmApp
 
         private void GameEngine(object sender, EventArgs e)
         {
-            int player1Health = 100;
-            int player2Health = 100;
-            int enemyHealth = 100;
-
-
-
-
             if (moveLeft)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) - 10);
             if (moveRight)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) + 10);
             if (moveUp)
-                Canvas.SetTop(Player1, Canvas.GetTop(Player1) - 7);
+                Canvas.SetTop(Player1, Canvas.GetTop(Player1) - 10);
             if (moveDown)
-                Canvas.SetTop(Player1, Canvas.GetTop(Player1) + 7);
+                Canvas.SetTop(Player1, Canvas.GetTop(Player1) + 10);
             if (moveLeft2)
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) - 10);
             if (moveRight2)
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) + 10);
             if (moveUp2)
-                Canvas.SetTop(Player2, Canvas.GetTop(Player2) - 7);
+                Canvas.SetTop(Player2, Canvas.GetTop(Player2) - 10);
             if (moveDown2)
-                Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 7);
-
-            
-            
-            
-
-
+                Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 10);
 
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
-            Rect enemy1Rect = new Rect(Canvas.GetLeft(Enemy1), Canvas.GetTop(Enemy1), Enemy1.Width, Enemy1.Height);
             Rect groundRect = new Rect(Canvas.GetLeft(BorderGame), Canvas.GetTop(BorderGame), BorderGame.Width, BorderGame.Height);
-            Rect borderLRect = new Rect(Canvas.GetLeft(BorderLeft), Canvas.GetTop(BorderLeft), BorderLeft.Width, BorderLeft.Height);
-            Rect borderRRect = new Rect(Canvas.GetLeft(BorderRight), Canvas.GetTop(BorderRight), BorderRight.Width, BorderRight.Height);
-            Rect borderDRect = new Rect(Canvas.GetLeft(BorderDown), Canvas.GetTop(BorderDown), BorderDown.Width, BorderDown.Height);
-
-            /*BorderL = Linkerkant van de game scherm
-              BorderR = Rechterkant van de game scherm
-              BorderD = Onderkant van de game scherm */
-             
-
-            //hieronder alle barrieres voor de muren
-            if (player1Rect.IntersectsWith(groundRect))
-            {
+            if (player1Rect.IntersectsWith(groundRect)){
                 Canvas.SetTop(Player1, Canvas.GetTop(BorderGame));
             }
             if (player2Rect.IntersectsWith(groundRect))
             {
                 Canvas.SetTop(Player2, Canvas.GetTop(BorderGame));
             }
-
-            if (player1Rect.IntersectsWith(borderLRect))
-            {
-                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderLeft));
-            }
-            if (player2Rect.IntersectsWith(borderLRect))
-            {
-                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderLeft));
-            }
-
-            if (player1Rect.IntersectsWith(borderRRect))
-            {
-                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderRight) - 61);
-            }
-            if (player2Rect.IntersectsWith(borderRRect))
-            {
-                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderRight) - 61);
-            }
-
-            if (player1Rect.IntersectsWith(borderDRect))
-            {
-                Canvas.SetTop(Player1, Canvas.GetTop(BorderDown) - 90);
-            }
-            if (player2Rect.IntersectsWith(borderDRect))
-            {
-                Canvas.SetTop(Player2, Canvas.GetTop(BorderDown) - 90);
-            }
-
-            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 50, Canvas.GetTop(Player1), Player1.Width - 50, Player1.Height - 50);
-            
-
-            if (punchHitbox.IntersectsWith(enemy1Rect))
-            {
-                enemyHealth =- 10;
-            }
-
-            string enemyhealthDisplay = "Health: " + Convert.ToString(enemyHealth);
-
         }
         private void enemyMovement()
         {
