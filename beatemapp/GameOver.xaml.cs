@@ -26,8 +26,10 @@ namespace BeatEmApp
             InitializeComponent();
             string scorePlayer = Convert.ToString(player1Score);
             string scorePlayer2 =Convert.ToString(player2Score);
-            PlayerScore.Text = PlayerName + " " + scorePlayer;
-            Player2Score.Text = Player2Name + " " + scorePlayer2;
+            NamePlayer.Text = PlayerName + ":";
+            NamePlayer2.Text = Player2Name + ":";
+            PlayerScore.Text = scorePlayer;
+            Player2Score.Text = scorePlayer2;
             Player_Email.Text = playerEmail;
             Player2_Email.Text = player2Email;
 
@@ -130,7 +132,7 @@ namespace BeatEmApp
         public void OnClick1(object sender, RoutedEventArgs e)
         {
 
-            Window Game = new Game(PlayerScore.Text, Player2Score.Text, Player_Email.Text, Player2_Email.Text);
+            Window Game = new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, false);
             this.Visibility = Visibility.Hidden;
             Game.Show();
         }

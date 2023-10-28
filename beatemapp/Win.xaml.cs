@@ -35,16 +35,16 @@ namespace BeatEmApp
         public void OnClick1(object sender, RoutedEventArgs e)
         {
 
-            Window Game = new Game(PlayerScore.Text, Player2Score.Text, Player_Email.Text, Player2_Email.Text);
+            Window Game = new Game(PlayerScore.Text, Player2Score.Text, Player_Email.Text, Player2_Email.Text, false);
             this.Visibility = Visibility.Hidden;
             Game.Show();
         }
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            Window Main = new MainWindow();
+            Page Main = new Test(PlayerScore.Text, 20);
             this.Visibility = Visibility.Hidden;
-            Main.Show();
+            this.NavigationService.Navigate(Main);
         }
     }
 }

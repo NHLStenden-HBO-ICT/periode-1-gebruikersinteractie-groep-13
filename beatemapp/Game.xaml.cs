@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,24 +29,36 @@ namespace BeatEmApp
         private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2;
         private DispatcherTimer GameTimer = new DispatcherTimer();
 
+        bool Menu;
+
         //testen opslaan score. Wordt vervangen met echte score.
         int Testscore1 = 200;
         int testscore2 = 300;
-        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email)
+        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, bool MenuOn)
         {
             InitializeComponent();
 
            string name = PlayerName;
            string name2 = Player2Name;
 
-            Player_contents.Text = name;
-            Player2_contents.Text = name2;
+            Menu = MenuOn;
+
+            NamePlayer.Text = name;
+            NamePlayer2.Text = name2;
             Player_email.Text = PlayerEmail;
             Player2_email.Text = Player2Email;
 
-            GameTimer.Interval = TimeSpan.FromMilliseconds(20);
-            GameTimer.Tick += GameEngine;
-            GameTimer.Start();
+            if (MenuOn == true)
+            {
+                Menuscreen.Visibility = Visibility.Visible;
+                menu.IsEnabled = false;
+                this.Background.Opacity = 0.5;
+            } else
+            {
+                GameTimer.Interval = TimeSpan.FromMilliseconds(20);
+                GameTimer.Tick += GameEngine;
+                GameTimer.Start();
+            }
 
 
             PlayerCanvas.Focus();
@@ -53,13 +66,76 @@ namespace BeatEmApp
 
         public void OnClick1(object sender, RoutedEventArgs e)
         {
-            Window Menu = new Menu(Player_contents.Text, Player2_contents.Text, Player_email.Text, Player2_email.Text);
+            Menuscreen.Visibility = Visibility.Visible;
+            menu.IsEnabled = false;
+            this.Background.Opacity = 0.5;
+        }
+
+        private void OnClick2(object sender, RoutedEventArgs e)
+        {
+            Menuscreen.Visibility = Visibility.Hidden;
+            menu.IsEnabled = true;
+            this.Background.Opacity = 1;
+
+            if (Menu == true)
+            {
+                GameTimer.Interval = TimeSpan.FromMilliseconds(20);
+                GameTimer.Tick += GameEngine;
+                Menu = false;
+            }
+            GameTimer.Start();
+
+            PlayerCanvas.Focus();
+        }
+
+        private void OnClick3(object sender, RoutedEventArgs e)
+        {
+            LeaderBoardscreen.Visibility = Visibility.Visible;
+            getData();
+
+        }
+
+        public void getData()
+        {
+            string Connectstring = Properties.Settings.Default.Database1ConnectionString;
+            SqlConnection conn = new SqlConnection(Connectstring);
+            SqlCommand sqlcmd;
+            string sql = "SELECT TOP 10 Naam, score FROM PlayerInfo WHERE score Is NOT NULL ORDER BY score DESC";
+            try
+            {
+                conn.Open();
+                sqlcmd = new SqlCommand(sql, conn);
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string name = reader.GetString(0);
+                    int score = reader.GetInt32(1);
+                    string scoreText = Convert.ToString(score);
+                    datalist.Items.Add(name + "   " + scoreText);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return;
+        }
+        private void OnClick4(object sender, RoutedEventArgs e)
+        {
+            Window Quit = new Quit(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
             this.Visibility = Visibility.Hidden;
-            Menu.Show();
+            Quit.Show();
+        }
+
+        private void OnClick5(object sender, RoutedEventArgs e)
+        {
+            LeaderBoardscreen.Visibility = Visibility.Hidden;
+            datalist.Items.Clear();
         }
 
         private void GameEngine(object sender, EventArgs e)
         {
+
             if (moveLeft)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) - 10);
             if (moveRight)
@@ -80,7 +156,8 @@ namespace BeatEmApp
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
             Rect groundRect = new Rect(Canvas.GetLeft(BorderGame), Canvas.GetTop(BorderGame), BorderGame.Width, BorderGame.Height);
-            if (player1Rect.IntersectsWith(groundRect)){
+            if (player1Rect.IntersectsWith(groundRect))
+            {
                 Canvas.SetTop(Player1, Canvas.GetTop(BorderGame));
             }
             if (player2Rect.IntersectsWith(groundRect))
@@ -131,49 +208,54 @@ namespace BeatEmApp
 
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.Key == Key.A)
             {
-                moveLeft2 = true;
+
+                    moveLeft2 = true;
             }
 
             if (e.Key == Key.D)
             {
-                moveRight2 = true;
+
+                    moveRight2 = true;
             }
 
             if (e.Key == Key.W)
             {
-                moveUp2 = true;
+
+                    moveUp2 = true;
+
             }
 
             if (e.Key == Key.S)
             {
-                moveDown2 = true;
+                    moveDown2 = true;
             }
 
             if (e.Key == Key.J)
             {
-                moveLeft = true;
+                    moveLeft = true;
             }
 
             if (e.Key == Key.L)
             {
-                moveRight = true;
+                    moveRight = true;
             }
 
             if (e.Key == Key.I)
             {
-                moveUp = true;
+                    moveUp = true;
             }
 
             if (e.Key == Key.K)
             {
-                moveDown = true;
+                    moveDown = true;
             }
 
             if (e.Key == Key.Enter)
             {
-                Window GameOver = new GameOver(Player_contents.Text, Player2_contents.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
+                Window GameOver = new GameOver(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
                 this.Visibility = Visibility.Hidden;
                 GameOver.Show();
             }
