@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,8 +12,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace BeatEmApp
 {
@@ -23,55 +26,190 @@ namespace BeatEmApp
     public partial class Game : Window
     {
         private ImageBrush PlayerSkin = new ImageBrush();
-        private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2;
+        private bool moveLeft, moveRight, moveUp, moveDown, moveLeft2, moveRight2, moveUp2, moveDown2, playerAttack1;
         private DispatcherTimer GameTimer = new DispatcherTimer();
-        public Game()
+
+        bool Menu;
+
+        //testen opslaan score. Wordt vervangen met echte score.
+        int Testscore1 = 200;
+        int testscore2 = 300;
+        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, bool MenuOn)
         {
             InitializeComponent();
 
-            GameTimer.Interval = TimeSpan.FromMilliseconds(20);
-            GameTimer.Tick += GameEngine;
-            GameTimer.Start();
+           string name = PlayerName;
+           string name2 = Player2Name;
+
+            Menu = MenuOn;
+
+            NamePlayer.Text = name;
+            NamePlayer2.Text = name2;
+            Player_email.Text = PlayerEmail;
+            Player2_email.Text = Player2Email;
+
+            if (MenuOn == true)
+            {
+                Menuscreen.Visibility = Visibility.Visible;
+                menu.IsEnabled = false;
+                this.Background.Opacity = 0.5;
+            } else
+            {
+                GameTimer.Interval = TimeSpan.FromMilliseconds(20);
+                GameTimer.Tick += GameEngine;
+                GameTimer.Start();
+            }
+
 
             PlayerCanvas.Focus();
         }
 
         public void OnClick1(object sender, RoutedEventArgs e)
         {
-            Window Menu = new Menu();
+            Menuscreen.Visibility = Visibility.Visible;
+            menu.IsEnabled = false;
+            this.Background.Opacity = 0.5;
+        }
+
+        private void OnClick2(object sender, RoutedEventArgs e)
+        {
+            Menuscreen.Visibility = Visibility.Hidden;
+            menu.IsEnabled = true;
+            this.Background.Opacity = 1;
+
+            if (Menu == true)
+            {
+                GameTimer.Interval = TimeSpan.FromMilliseconds(20);
+                GameTimer.Tick += GameEngine;
+                Menu = false;
+            }
+            GameTimer.Start();
+
+            PlayerCanvas.Focus();
+        }
+
+        private void OnClick3(object sender, RoutedEventArgs e)
+        {
+            LeaderBoardscreen.Visibility = Visibility.Visible;
+            getData();
+
+        }
+
+        public void getData()
+        {
+            string Connectstring = Properties.Settings.Default.Database1ConnectionString;
+            SqlConnection conn = new SqlConnection(Connectstring);
+            SqlCommand sqlcmd;
+            string sql = "SELECT TOP 10 Naam, score FROM PlayerInfo WHERE score Is NOT NULL ORDER BY score DESC";
+            try
+            {
+                conn.Open();
+                sqlcmd = new SqlCommand(sql, conn);
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string name = reader.GetString(0);
+                    int score = reader.GetInt32(1);
+                    string scoreText = Convert.ToString(score);
+                    datalist.Items.Add(name + "   " + scoreText);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return;
+        }
+        private void OnClick4(object sender, RoutedEventArgs e)
+        {
+            Window Quit = new Quit(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
             this.Visibility = Visibility.Hidden;
-            Menu.Show();
+            Quit.Show();
+        }
+
+        private void OnClick5(object sender, RoutedEventArgs e)
+        {
+            LeaderBoardscreen.Visibility = Visibility.Hidden;
+            datalist.Items.Clear();
         }
 
         private void GameEngine(object sender, EventArgs e)
         {
+            int player1Health = 100;
+            int player2Health = 100;
+            int enemyHealth = 100;
+
             if (moveLeft)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) - 10);
             if (moveRight)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) + 10);
             if (moveUp)
-                Canvas.SetTop(Player1, Canvas.GetTop(Player1) - 10);
+                Canvas.SetTop(Player1, Canvas.GetTop(Player1) - 7);
             if (moveDown)
-                Canvas.SetTop(Player1, Canvas.GetTop(Player1) + 10);
+                Canvas.SetTop(Player1, Canvas.GetTop(Player1) + 7);
             if (moveLeft2)
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) - 10);
             if (moveRight2)
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) + 10);
             if (moveUp2)
-                Canvas.SetTop(Player2, Canvas.GetTop(Player2) - 10);
+                Canvas.SetTop(Player2, Canvas.GetTop(Player2) - 7);
             if (moveDown2)
-                Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 10);
+                Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 7);
 
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
+            Rect enemy1Rect = new Rect(Canvas.GetLeft(Enemy1), Canvas.GetTop(Enemy1), Enemy1.Width, Enemy1.Height);
+            
             Rect groundRect = new Rect(Canvas.GetLeft(BorderGame), Canvas.GetTop(BorderGame), BorderGame.Width, BorderGame.Height);
-            if (player1Rect.IntersectsWith(groundRect)){
+            Rect borderLRect = new Rect(Canvas.GetLeft(BorderLeft), Canvas.GetTop(BorderLeft), BorderLeft.Width, BorderLeft.Height);
+            Rect borderRRect = new Rect(Canvas.GetLeft(BorderRight), Canvas.GetTop(BorderRight), BorderRight.Width, BorderRight.Height);
+            Rect borderDRect = new Rect(Canvas.GetLeft(BorderDown), Canvas.GetTop(BorderDown), BorderDown.Width, BorderDown.Height);
+
+            if (player1Rect.IntersectsWith(groundRect))
+            {
                 Canvas.SetTop(Player1, Canvas.GetTop(BorderGame));
             }
             if (player2Rect.IntersectsWith(groundRect))
             {
                 Canvas.SetTop(Player2, Canvas.GetTop(BorderGame));
             }
+
+            if (player1Rect.IntersectsWith(borderLRect))
+            {
+                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderLeft));
+            }
+            if (player2Rect.IntersectsWith(borderLRect))
+            {
+                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderLeft));
+            }
+
+            if (player1Rect.IntersectsWith(borderRRect))
+            {
+                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderRight) - 61);
+            }
+            if (player2Rect.IntersectsWith(borderRRect))
+            {
+                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderRight) - 61);
+            }
+
+            if (player1Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Player1, Canvas.GetTop(BorderDown) - 90);
+            }
+            if (player2Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Player2, Canvas.GetTop(BorderDown) - 90);
+            }
+
+            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 50, Canvas.GetTop(Player1), Player1.Width - 50, Player1.Height - 50);
+
+
+            if (punchHitbox.IntersectsWith(enemy1Rect))
+            {
+                enemyHealth = -10;
+            }
+
+            string enemyhealthDisplay = "Health: " + Convert.ToString(enemyHealth);
         }
         private void enemyMovement()
         {
@@ -116,52 +254,58 @@ namespace BeatEmApp
 
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.Key == Key.A)
             {
-                moveLeft2 = true;
+
+                    moveLeft2 = true;
             }
 
             if (e.Key == Key.D)
             {
-                moveRight2 = true;
+
+                    moveRight2 = true;
             }
 
             if (e.Key == Key.W)
             {
-                moveUp2 = true;
+
+                    moveUp2 = true;
+
             }
 
             if (e.Key == Key.S)
             {
-                moveDown2 = true;
+                    moveDown2 = true;
             }
 
             if (e.Key == Key.J)
             {
-                moveLeft = true;
+                    moveLeft = true;
             }
 
             if (e.Key == Key.L)
             {
-                moveRight = true;
+                    moveRight = true;
             }
 
             if (e.Key == Key.I)
             {
-                moveUp = true;
+                    moveUp = true;
             }
 
             if (e.Key == Key.K)
             {
-                moveDown = true;
+                    moveDown = true;
             }
 
             if (e.Key == Key.Enter)
             {
-                Window GameOver = new GameOver();
+                Window GameOver = new GameOver(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
                 this.Visibility = Visibility.Hidden;
                 GameOver.Show();
             }
+
         }
 
         public void OnKeyUp(object sender, KeyEventArgs e)

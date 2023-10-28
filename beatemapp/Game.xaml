@@ -4,27 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatEmApp"
+
         mc:Ignorable="d"
         Title="Game" Height="450" Width="800">
+    <Window.Background>
+        <SolidColorBrush Color="White"></SolidColorBrush>
+    </Window.Background>
     <Grid>
-        <Border x:Name="GameBorder" Height="239" Width="800" Canvas.Top="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,195,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="633*"/>
+            <ColumnDefinition Width="167*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="Images/Background.png" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,0,-175" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Border x:Name="GameBorder" Height="239" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,195,0,0" Grid.ColumnSpan="2">
             <Canvas Name="PlayerCanvas" Focusable="True" KeyDown="OnKeyDown" KeyUp="OnKeyUp" Margin="0,237,0,0">
-                <Rectangle x:Name="BorderGame" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="-235" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                
+                <Rectangle x:Name="BorderDown" Visibility="Hidden" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="0" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="BorderLeft" Visibility="Hidden" Fill="Black" Height="239" Canvas.Left="0" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="BorderRight" Visibility="Hidden" Fill="Black" Height="239" Canvas.Left="799" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="BorderGame" Visibility="Hidden" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="-235" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                
                 <Rectangle x:Name="Player1" Fill="#6D82AC" Height="89" Canvas.Left="34" Canvas.Top="-115" Width="61"/>
                 <Rectangle x:Name="Player2" Fill="#6D82AC" Height="90" Canvas.Left="138" Canvas.Top="-160" Width="61"/>
+                
                 <Rectangle x:Name="Enemy1" Fill="#586C70" Height="89" Canvas.Left="656" Canvas.Top="-115" Width="62" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Rectangle x:Name="Enemy2" Fill="#586C70" Height="90" Canvas.Left="545" Canvas.Top="-160" Width="61" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <ProgressBar Name="EnemyHealth1" Background="#6D82AC" Width="100" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="523,237,10,0" VerticalAlignment="Top" >
+                    <ProgressBar.Effect>
+                        <DropShadowEffect/>
+                    </ProgressBar.Effect>
+                </ProgressBar>
+
+                <ProgressBar Name="EnemyHealth2" Background="#6D82AC" Width="100" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="0,285,67,0" VerticalAlignment="Top" Grid.Column="1">
+                    <ProgressBar.Effect>
+                        <DropShadowEffect/>
+                    </ProgressBar.Effect>
+                </ProgressBar>
             </Canvas>
         </Border>
-        <Button Name="menu" Background="#F3C9A6"  Content="menu" FontFamily="Arial" Click="OnClick1" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="41" Width="120"/>
-        <TextBlock x:Name="Player_contents" HorizontalAlignment="Left" Margin="100,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
-        <TextBlock x:Name="Player2_contents" HorizontalAlignment="Left" Margin="100,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
-        <TextBlock x:Name="vijand1_levens" HorizontalAlignment="Left" Margin="567,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
-        <TextBlock x:Name="vijand2_levens" HorizontalAlignment="Left" Margin="567,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
-        <TextBlock HorizontalAlignment="Left" Margin="29,63,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="p1" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
-        <TextBlock HorizontalAlignment="Left" Margin="29,125,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="p2" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
-        <TextBlock HorizontalAlignment="Left" Margin="490,63,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="v1" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
-        <TextBlock HorizontalAlignment="Left" Margin="490,125,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="v2" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
-        <TextBlock HorizontalAlignment="Left" Margin="490,9,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="vijanden over" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="279"/>
+
+        <Canvas x:Name="Menuscreen" Margin="311,56,115,63" Visibility="Hidden">
+            <Button Name="continue" Background="#F3C9A6"  Content="Start game" Click="OnClick2" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
+            <Button Name="leaderboard" Background="#F3C9A6"  Content="leaderboard" Click="OnClick3" HorizontalAlignment="Center" Margin="0,172,0,0" VerticalAlignment="Top" Height="41" Width="152"/>
+            <Button Name="quit" Background="#F3C9A6"  Content="save en quit" Click="OnClick4" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Height="41" Width="152"/>
+        </Canvas>
+        <Canvas>
+            <Button Name="menu" Background="#F3C9A6"  Content="menu" FontFamily="Arial" Click="OnClick1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="96" Canvas.Left="361" Canvas.Top="8"/>
+            <TextBlock x:Name="Player_contents" HorizontalAlignment="Left" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="22" Width="224" Canvas.Left="17" Canvas.Top="62"/>
+            <TextBlock x:Name="Player2_contents" HorizontalAlignment="Left" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Center" Background="#6D82AC" Height="20" Width="190" Canvas.Left="592" Canvas.Top="63"/>
+            <TextBlock x:Name="Player_email" HorizontalAlignment="Left" Margin="100,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" Visibility="Hidden" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
+            <TextBlock x:Name="Player2_email" HorizontalAlignment="Left" Margin="100,10,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" Visibility="Hidden" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
+
+            <TextBlock x:Name="NamePlayer" HorizontalAlignment="Left" TextWrapping="Wrap" TextAlignment="Center" Text="p1" Background="#33D6F5" VerticalAlignment="Top" Height="22" Width="224" Canvas.Left="17" Canvas.Top="41"/>
+            <TextBlock x:Name="NamePlayer2" HorizontalAlignment="Left" TextWrapping="Wrap" TextAlignment="Center" Text="p2" Background="#33D6F5" VerticalAlignment="Center" Height="22" Width="190" Canvas.Left="592" Canvas.Top="41"/>
+            <Canvas x:Name="LeaderBoardscreen" Visibility="Hidden">
+                <TextBlock HorizontalAlignment="Left" Height="264" Background="#586C70" VerticalAlignment="Top" Width="214" Canvas.Left="302" Canvas.Top="138"/>
+                <ItemsControl Name="datalist" d:ItemsSource="{d:SampleData ItemCount=10}" FontFamily="Regular 400" BorderThickness="0" Background="Transparent" Canvas.Left="360" Canvas.Top="176"/>
+                <Button x:Name="Back_Copy" Background="#F3C9A6" Content="sluit" Click="OnClick5" Height="38" Width="102" HorizontalAlignment="Left" Canvas.Top="350" VerticalAlignment="Top" Canvas.Left="356"/>
+                <TextBlock TextWrapping="Wrap" FontWeight="Bold" Text="kom aan de top van de leaderboard en maak kans op 1 maand gratis sporten bij sportschool Kees." Background="#33D6F5"  TextAlignment="Center" Height="53" Width="346" HorizontalAlignment="Left" Canvas.Left="236" Canvas.Top="58" VerticalAlignment="Top"/>
+            </Canvas>
+
+        </Canvas>
+
     </Grid>
 </Window>

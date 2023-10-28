@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\marco\Source\Repos\beatemapp\BeatEmApp\obj\Debug\
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\
 BeatEmApp
 none
 false
 DEBUG;TRACE
-C:\Users\marco\Source\Repos\beatemapp\BeatEmApp\App.xaml
-8-594950815
-
-13-440524605
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\App.xaml
+101098034619
+21200697616
+171341007507
 13-1310406943
-Game.xaml;GameOver.xaml;Help.xaml;Invul.xaml;Leaderboard.xaml;MainWindow.xaml;Menu.xaml;Quit.xaml;
+Game.xaml;GameOver.xaml;Help.xaml;Invul.xaml;Leaderboard.xaml;MainWindow.xaml;Menu.xaml;Quit.xaml;Test.xaml;Win.xaml;
 
 True
 

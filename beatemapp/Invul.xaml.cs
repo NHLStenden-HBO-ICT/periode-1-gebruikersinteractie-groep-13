@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace BeatEmApp
 {
@@ -32,16 +35,61 @@ namespace BeatEmApp
 
         public void OnClick2(object sender, RoutedEventArgs e)
         {
-            if (Nameplayer.Text != " " && Nameplayer2.Text != " ")
+            if (Nameplayer.Text != "" && Nameplayer2.Text != "" && EmailPlayer.Text != "" && EmailPlayer2.Text != "")
             {
-                Window Game = new Game();
-                this.Visibility = Visibility.Hidden;
-                Game.Show();
+                bool isValid = validateEmails(EmailPlayer.Text, EmailPlayer2.Text);
+                if (isValid != false)
+                {
+                    Window Game = new Game(Nameplayer.Text, Nameplayer2.Text, EmailPlayer.Text, EmailPlayer2.Text, false);
+                    this.Visibility = Visibility.Hidden;
+                    InsertData(Nameplayer.Text, EmailPlayer.Text, Nameplayer2.Text, EmailPlayer2.Text);
+                    Game.Show();
+                } else
+                {
+                    Error2.Visibility = Visibility.Visible;
+                    Error.Visibility = Visibility.Hidden;
+                }
             }
             else
             {
                 Error.Visibility = Visibility.Visible;
+                Error2.Visibility= Visibility.Hidden;
             }
+        }
+
+        static bool validateEmails(string Email, string Email2)
+        {
+            string Emailpattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+
+            Regex regex = new Regex(Emailpattern);
+            return regex.IsMatch(Email) && regex.IsMatch(Email2);
+        }
+
+        public static void InsertData(string player1Name, string Player1Email, string player2Name, string player2Email)
+        {
+            string Connectstring = Properties.Settings.Default.Database1ConnectionString;
+            SqlConnection conn = new SqlConnection(Connectstring);
+            SqlCommand sqlcmd;
+            SqlCommand sqlcmd2;
+            string sql = "INSERT INTO PlayerInfo(Naam, Email, score) SELECT '" + player1Name + "','" + Player1Email + "', 0 WHERE NOT EXISTS (SELECT * FROM PlayerInfo WHERE Email = '" + Player1Email + "')";
+            string sql2 = "INSERT INTO PlayerInfo(Naam, Email, score) SELECT '" + player2Name + "','" + player2Email + "', 0 WHERE NOT EXISTS (SELECT * FROM PlayerInfo WHERE Email = '" + player2Email + "')";
+            try
+            {
+                conn.Open();
+                sqlcmd = new SqlCommand(sql, conn);
+                sqlcmd.ExecuteNonQuery();
+                sqlcmd.Dispose();
+                sqlcmd2 = new SqlCommand(sql2, conn);
+                sqlcmd2.ExecuteNonQuery();
+                sqlcmd2.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return;
         }
     }
 }
