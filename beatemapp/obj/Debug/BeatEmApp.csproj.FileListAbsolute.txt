@@ -61,3 +61,34 @@ C:\Users\marco\source\repos\BeatEm\BeatEmApp\bin\Debug\Database1_log.ldf
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\BeatEmApp_Content.g.cs
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Win.g.cs
 C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Win.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\bin\Debug\BeatEmApp.exe.config
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\bin\Debug\BeatEmApp.exe
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\bin\Debug\BeatEmApp.pdb
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.csproj.AssemblyReference.cache
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Game.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\GameOver.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Help.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Invul.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Leaderboard.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\MainWindow.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Menu.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Quit.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\App.g.cs
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp_MarkupCompile.cache
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp_MarkupCompile.lref
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Game.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\GameOver.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Help.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Invul.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Leaderboard.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\MainWindow.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Menu.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\Quit.baml
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.g.resources
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.Properties.Resources.resources
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.csproj.GenerateResource.cache
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.csproj.CoreCompileInputs.cache
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.exe
+C:\Users\yucel\Desktop\GitHub repository\BeatEmApp\obj\Debug\BeatEmApp.pdb
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Test.g.cs
+C:\Users\marco\source\repos\BeatEm\BeatEmApp\obj\Debug\Test.baml
