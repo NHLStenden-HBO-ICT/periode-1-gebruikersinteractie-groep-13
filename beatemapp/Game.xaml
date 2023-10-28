@@ -10,7 +10,10 @@
         <Border x:Name="GameBorder" Height="239" Width="800" Canvas.Top="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,195,0,0">
             <Canvas Name="PlayerCanvas" Focusable="True" KeyDown="OnKeyDown" KeyUp="OnKeyUp" Margin="0,237,0,0">
                 <Rectangle x:Name="BorderGame" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="-235" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle x:Name="Player1" Fill="#6D82AC" Height="89" Canvas.Left="34" Canvas.Top="-115" Width="61"/>
+                <Rectangle x:Name="BorderDown" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="0" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="BorderLeft" Fill="Black" Height="239" Canvas.Left="0" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="BorderRight" Fill="Black" Height="239" Canvas.Left="799" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Rectangle x:Name="Player1" Fill="#6D82AC" Height="90" Canvas.Left="34" Canvas.Top="-115" Width="61"/>
                 <Rectangle x:Name="Player2" Fill="#6D82AC" Height="90" Canvas.Left="138" Canvas.Top="-160" Width="61"/>
                 <Rectangle x:Name="Enemy1" Fill="#586C70" Height="89" Canvas.Left="656" Canvas.Top="-115" Width="62" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Rectangle x:Name="Enemy2" Fill="#586C70" Height="90" Canvas.Left="545" Canvas.Top="-160" Width="61" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -20,6 +23,20 @@
         <TextBlock x:Name="Player_contents" HorizontalAlignment="Left" Margin="100,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock x:Name="Player2_contents" HorizontalAlignment="Left" Margin="100,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens|score|one-ups" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock x:Name="vijand1_levens" HorizontalAlignment="Left" Margin="567,63,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
+
+        <ProgressBar Name="EnemyHealth1" Width="185" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="540,80,0,0" VerticalAlignment="Top" >
+            <ProgressBar.Effect>
+                <DropShadowEffect/>
+            </ProgressBar.Effect>
+        </ProgressBar>
+
+        <ProgressBar Name="EnemyHealth2" Width="185" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="540,140,0,0" VerticalAlignment="Top">
+            <ProgressBar.Effect>
+                <DropShadowEffect/>
+            </ProgressBar.Effect>
+        </ProgressBar>
+
+
         <TextBlock x:Name="vijand2_levens" HorizontalAlignment="Left" Margin="567,125,0,0" TextWrapping="Wrap"  FontSize="12" Text="levens" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="43" Width="202"/>
         <TextBlock HorizontalAlignment="Left" Margin="29,63,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="p1" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
         <TextBlock HorizontalAlignment="Left" Margin="29,125,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="p2" Background="#33D6F5" VerticalAlignment="Top" Height="43" Width="57"/>
