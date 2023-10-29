@@ -15,6 +15,7 @@
             <ColumnDefinition Width="633*"/>
             <ColumnDefinition Width="167*"/>
         </Grid.ColumnDefinitions>
+        
         <Image Source="Images/Background.png" Stretch="Fill" Grid.ColumnSpan="2" Margin="0,0,0,-175" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
@@ -27,32 +28,37 @@
         </Image>
         <Border x:Name="GameBorder" Height="239" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,195,0,0" Grid.ColumnSpan="2">
             <Canvas Name="PlayerCanvas" Focusable="True" KeyDown="OnKeyDown" KeyUp="OnKeyUp" Margin="0,237,0,0">
-                
+
                 <Rectangle x:Name="BorderDown" Visibility="Hidden" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="0" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Rectangle x:Name="BorderLeft" Visibility="Hidden" Fill="Black" Height="239" Canvas.Left="0" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Rectangle x:Name="BorderRight" Visibility="Hidden" Fill="Black" Height="239" Canvas.Left="799" Canvas.Top="-235" Width="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Rectangle x:Name="BorderGame" Visibility="Hidden" Fill="Black" Height="1" Canvas.Left="0" Canvas.Top="-235" Width="800" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                
+
                 <Rectangle x:Name="Player1" Fill="#6D82AC" Height="89" Canvas.Left="34" Canvas.Top="-115" Width="61"/>
+
                 <Rectangle x:Name="Player2" Fill="#6D82AC" Height="90" Canvas.Left="138" Canvas.Top="-160" Width="61"/>
-                
-                <Rectangle x:Name="Enemy1" Fill="#586C70" Height="89" Canvas.Left="656" Canvas.Top="-115" Width="62" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle x:Name="Enemy2" Fill="#586C70" Height="90" Canvas.Left="545" Canvas.Top="-160" Width="61" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                <ProgressBar Name="EnemyHealth1" Background="#6D82AC" Width="100" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="523,237,10,0" VerticalAlignment="Top" >
-                    <ProgressBar.Effect>
-                        <DropShadowEffect/>
-                    </ProgressBar.Effect>
-                </ProgressBar>
+                <Grid x:Name="Enemies">
+                    <Canvas x:Name="Enemy1Set" Grid.Row="1">
+                        <Rectangle x:Name="Enemy1" Fill="#586C70" Height="89" Canvas.Left="545" Canvas.Top="-159" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <ProgressBar Name="EnemyBar1" Background="#586C70" Width="100" Height="20" Minimum="0" Maximum="100" Value="100" Foreground="#6D82AC" VerticalAlignment="Top" Canvas.Left="526" Canvas.Top="-201" HorizontalAlignment="Left" >
+                            <ProgressBar.Effect>
+                                <DropShadowEffect/>
+                            </ProgressBar.Effect>
+                        </ProgressBar>
+                    </Canvas>
+                    <Canvas x:Name="Enemy2Set" Grid.Row="2">
+                        <Rectangle x:Name="Enemy2" Fill="#586C70" Height="90" Canvas.Left="656" Canvas.Top="-111" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                <ProgressBar Name="EnemyHealth2" Background="#6D82AC" Width="100" Height="20" Maximum="100" Value="{Binding enemyHealthDisplay}" Margin="0,285,67,0" VerticalAlignment="Top" Grid.Column="1">
-                    <ProgressBar.Effect>
-                        <DropShadowEffect/>
-                    </ProgressBar.Effect>
-                </ProgressBar>
+                        <ProgressBar Name="EnemyBar2" Background="#586C70" Width="100" Height="20" Minimum="0" Maximum="100" Value="100" Foreground="#6D82AC" VerticalAlignment="Top" Grid.Column="1" Canvas.Left="637" Canvas.Top="-150">
+                            <ProgressBar.Effect>
+                                <DropShadowEffect/>
+                            </ProgressBar.Effect>
+                        </ProgressBar>
+                    </Canvas>
+                </Grid>
             </Canvas>
         </Border>
-
         <Canvas x:Name="Menuscreen" Margin="311,56,115,63" Visibility="Hidden">
             <Button Name="continue" Background="#F3C9A6"  Content="Start game" Click="OnClick2" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
             <Button Name="leaderboard" Background="#F3C9A6"  Content="leaderboard" Click="OnClick3" HorizontalAlignment="Center" Margin="0,172,0,0" VerticalAlignment="Top" Height="41" Width="152"/>

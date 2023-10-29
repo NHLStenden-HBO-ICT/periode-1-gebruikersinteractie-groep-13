@@ -19,7 +19,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="76,197,0,0" TextWrapping="Wrap" TextAlignment="Center" Background="#33D6F5" VerticalAlignment="Top" Height="20" Width="142"><Run Language="nl-nl" Text="vul in email speler 1"/></TextBlock>
         <TextBox x:Name="EmailPlayer2" FontFamily="Regular 400" Text="" TextAlignment="Center" Background="#6D82AC" Margin="588,217,58,169"/>
         <TextBlock HorizontalAlignment="Left" Margin="588,197,0,0" TextWrapping="Wrap" TextAlignment="Center" Background="#33D6F5" VerticalAlignment="Top" Height="20" Width="142"><Run Language="nl-nl" Text="vul in email speler 2"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="256,35,0,0" TextWrapping="Wrap" FontWeight="Bold" Text="kom aan de top van de leaderboard en maak kans op 1 maand gratis sporten bij sportschool Kees." Background="#33D6F5"  TextAlignment="Center" VerticalAlignment="Top" Height="53" Width="305"/>
+        <TextBlock HorizontalAlignment="Left" Margin="256,35,0,0" TextWrapping="Wrap" FontWeight="Regular" Text="kom aan de top van de leaderboard en maak kans op 1 maand gratis sporten bij sportschool Kees." Background="#33D6F5"  TextAlignment="Center" VerticalAlignment="Top" Height="53" Width="305"/>
 
     </Grid>
 </Window>
