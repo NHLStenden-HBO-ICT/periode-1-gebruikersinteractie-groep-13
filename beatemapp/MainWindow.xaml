@@ -13,5 +13,6 @@
         <Button Name="Leader" Background="#F3C9A6" Content="leaderboard" Click="OnClick2" HorizontalAlignment="Left" Margin="73,67,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
         <Button Name="help" Background="#F3C9A6"  Content="help" Click="OnClick3" HorizontalAlignment="Left" Margin="73,123,0,0" VerticalAlignment="Top" Height="41" Width="151"/>
         <Image  HorizontalAlignment="Center" Height="211" Margin="0,-226,0,0" VerticalAlignment="Top" Width="800"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="90" FontWeight="Regular" Height="226" Margin="197,-242,0,0" TextWrapping="Wrap" Text="Gym Gladiator" VerticalAlignment="Top" Width="458"/>
     </Grid>
 </Window>

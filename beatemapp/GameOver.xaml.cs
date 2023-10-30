@@ -26,8 +26,8 @@ namespace BeatEmApp
             InitializeComponent();
             string scorePlayer = Convert.ToString(player1Score);
             string scorePlayer2 =Convert.ToString(player2Score);
-            NamePlayer.Text = PlayerName + ":";
-            NamePlayer2.Text = Player2Name + ":";
+            NamePlayer.Text = PlayerName;
+            NamePlayer2.Text = Player2Name;
             PlayerScore.Text = scorePlayer;
             Player2Score.Text = scorePlayer2;
             Player_Email.Text = playerEmail;

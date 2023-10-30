@@ -10,21 +10,23 @@
         <Button x:Name="restart" Background="#F3C9A6"  Content="Start" Click="OnClick1" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" Height="48" Width="192"/>
         <Button x:Name="Quit" Background="#F3C9A6" Content="stop spel" Click="OnClick2" HorizontalAlignment="Center" Margin="0,233,0,0" VerticalAlignment="Top" Height="51" Width="192"/>
         <TextBlock x:Name="Error" HorizontalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap"  FontSize="20" Text="game over" TextAlignment="Center" VerticalAlignment="Top" Background="#33D6F5" Height="108" Width="193"/>
-        <TextBlock x:Name="Error_Copy" HorizontalAlignment="Left" Margin="66,20,0,0" TextWrapping="Wrap"  FontSize="20" Text="email sportschool" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="190"/>
-        <TextBlock x:Name="Error_Copy1" HorizontalAlignment="Left" Margin="553,20,0,0" TextWrapping="Wrap"  FontSize="20" Text="info over sportschool" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="190"/>
+        <TextBlock x:Name="Error_Copy" HorizontalAlignment="Left" Margin="66,20,0,0" TextWrapping="Wrap"  FontSize="16" Text="word lid bij sportschool kees en train met verschillende sport apparatuur + lessen zoals kickboksen" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="190"/>
+        <TextBlock x:Name="Error_Copy1" HorizontalAlignment="Left" Margin="550,20,0,0" TextWrapping="Wrap"  FontSize="16" Text="email: nico.heida@nhlstenden.com" TextAlignment="Center" VerticalAlignment="Top" Background="#586C70" Height="108" Width="200"/>
         <TextBlock x:Name="LeaderPlayer1" HorizontalAlignment="Left" Margin="66,233,0,0" TextWrapping="Wrap"  FontSize="20" Text="plaatsing leaderboard" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="126" Width="190"/>
         <TextBlock x:Name="LeaderPlayer2" HorizontalAlignment="Left" Margin="553,233,0,0" TextWrapping="Wrap"  FontSize="20" Text="plaatsing scoreboard" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="126" Width="190"/>
         <Rectangle HorizontalAlignment="Left" Height="47" Fill="#6D82AC" Margin="66,147,0,0" Stroke="Black" VerticalAlignment="Top" Width="190"/>
         <Rectangle HorizontalAlignment="Left" Height="47" Fill="#6D82AC" Margin="553,149,0,0" Stroke="Black" VerticalAlignment="Top" Width="190"/>
-        <TextBlock x:Name="PlayerScore" HorizontalAlignment="Left" Margin="161,147,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p1" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="95"/>
-        <TextBlock x:Name="Player2Score" HorizontalAlignment="Left" Margin="648,148,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p2" TextAlignment="Center" VerticalAlignment="Top" Height="33" Width="87" RenderTransformOrigin="0.576,0.518"/>
-        <TextBlock x:Name="NamePlayer" HorizontalAlignment="Left" Margin="76,148,0,0" TextWrapping="Wrap"  FontSize="20" Text="naam p1" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="95"/>
-        <TextBlock x:Name="NamePlayer2" HorizontalAlignment="Left" Margin="556,149,0,0" TextWrapping="Wrap"  FontSize="20" Text="naam p2" TextAlignment="Center" VerticalAlignment="Top" Height="33" Width="87" RenderTransformOrigin="0.576,0.518"/>
+        <TextBlock x:Name="PlayerScore" HorizontalAlignment="Left" Margin="161,151,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p1" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="95"/>
+        <TextBlock x:Name="Player2Score" HorizontalAlignment="Left" Margin="648,153,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p2" TextAlignment="Center" VerticalAlignment="Top" Height="33" Width="87" RenderTransformOrigin="0.576,0.518"/>
+        <TextBlock HorizontalAlignment="Left" Margin="114,149,0,0" TextWrapping="Wrap"  FontSize="20" Text=":" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="94"/>
+        <TextBlock x:Name="NamePlayer" HorizontalAlignment="Left" Margin="66,151,0,0" TextWrapping="Wrap"  FontSize="20" Text="naam p1" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="95"/>
+        <TextBlock x:Name="NamePlayer2" HorizontalAlignment="Left" Margin="553,154,0,0" TextWrapping="Wrap"  FontSize="20" Text="naam p2" TextAlignment="Center" VerticalAlignment="Top" Height="33" Width="87" RenderTransformOrigin="0.576,0.518"/>
         <TextBlock x:Name="Player_Email" Visibility="Hidden" HorizontalAlignment="Left" Margin="66,151,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p1" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="46" Width="190"/>
         <TextBlock x:Name="BestScore1" HorizontalAlignment="Left" Margin="66,296,0,0" TextWrapping="Wrap"  FontSize="20" Text=" best score" TextAlignment="Center" VerticalAlignment="Top"  Height="126" Width="190"/>
         <TextBlock x:Name="BestScore2" HorizontalAlignment="Left" Margin="553,296,0,0" TextWrapping="Wrap"  FontSize="20" Text="best score" TextAlignment="Center" VerticalAlignment="Top" Height="126" Width="190"/>
         <TextBlock x:Name="Player2_Email" Visibility="Hidden" HorizontalAlignment="Left" Margin="553,152,0,0" TextWrapping="Wrap"  FontSize="20" Text="score p2" TextAlignment="Center" VerticalAlignment="Top" Background="#6D82AC" Height="46" Width="190"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,296,0,0" TextWrapping="Wrap" FontWeight="Bold" Text="kom aan de top van de leaderboard en maak kans op 1 maand gratis sporten bij sportschool Kees." Background="#33D6F5"  TextAlignment="Center" VerticalAlignment="Top" Height="63" Width="244"/>
+        <TextBlock HorizontalAlignment="Left" Margin="601,152,0,0" TextWrapping="Wrap"  FontSize="20" Text=":" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="94"/>
 
     </Grid>
 </Window>
