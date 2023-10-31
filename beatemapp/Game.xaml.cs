@@ -52,7 +52,7 @@ namespace BeatEmApp
 
             Menu = MenuOn;
 
-            NamePlayer.Text = name2;
+            NamePlayer.Text = name;
             NamePlayer2.Text = name2;
             Player_email.Text = PlayerEmail;
             Player2_email.Text = Player2Email;
