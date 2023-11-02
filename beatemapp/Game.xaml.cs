@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,15 +36,33 @@ namespace BeatEmApp
         private DispatcherTimer invincibleFrame = new DispatcherTimer();
         private DispatcherTimer invincibleFrame2 = new DispatcherTimer();
         private DispatcherTimer respawnTimer = new DispatcherTimer();
+        private DispatcherTimer AttackTimerE1 = new DispatcherTimer();
+        private DispatcherTimer AttackTimerE2 = new DispatcherTimer();
 
         bool Menu;
 
         //testen opslaan score. Wordt vervangen met echte score.
         int Testscore1;
         int testscore2;
-
+        //int i= 0;
         int player1Health = 100;
         int player2Health = 100;
+        private double enemySpeed = 2;
+        private double enemyPosition = 0;
+
+
+        bool GoLeft = true;
+        bool InRange = false;
+        bool GoLeft2 = true;
+        bool InRange2 = false;
+        bool AttackE1 = false;
+        bool AttackE2 = false;
+
+        bool gameOver1 = false;
+        bool gameOver2 = false;
+        //bool GoRight = false;
+
+
         public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, bool MenuOn)
         {
             InitializeComponent();
@@ -56,6 +76,10 @@ namespace BeatEmApp
             NamePlayer2.Text = name2;
             Player_email.Text = PlayerEmail;
             Player2_email.Text = Player2Email;
+
+
+            
+            
 
 
             if (MenuOn == true)
@@ -77,8 +101,16 @@ namespace BeatEmApp
                 invincibleFrame2.Tick += enemy2Damage;
                 invincibleFrame2.Start();
 
+                
+
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
+
+                AttackTimerE1.Interval = TimeSpan.FromSeconds(2);
+                AttackTimerE1.Tick += PlayerDamage;
+
+                AttackTimerE2.Interval = TimeSpan.FromSeconds(2);
+                AttackTimerE2.Tick += PlayerDamage;
             }
 
 
@@ -114,6 +146,7 @@ namespace BeatEmApp
 
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
+                
             }
             GameTimer.Start();
 
@@ -167,45 +200,25 @@ namespace BeatEmApp
 
         private void GameEngine(object sender, EventArgs e)
         {
-
+            
             if (moveLeft)
-            {
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) - 10);
-                //Canvas.SetLeft(player1Bar, Canvas.GetLeft(player1Bar) - 10);
-            }
             if (moveRight)
-            {
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) + 10);
-                //Canvas.SetLeft(player1Bar, Canvas.GetLeft(player1Bar) + 10);
-            }
             if (moveUp)
-            {
                 Canvas.SetTop(Player1, Canvas.GetTop(Player1) - 7);
-                //Canvas.SetTop(player1Bar, Canvas.GetTop(player1Bar) - 7);
-            }
             if (moveDown)
-            {
                 Canvas.SetTop(Player1, Canvas.GetTop(Player1) + 7);
-                //Canvas.SetTop(player1Bar, Canvas.GetTop(player1Bar) + 7);
-            }
             if (moveLeft2)
-            {
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) - 10);
-                //Canvas.SetLeft(player2Bar, Canvas.GetLeft(player2Bar) - 10);
-            }
-            if (moveRight2) { 
+            if (moveRight2)
                 Canvas.SetLeft(Player2, Canvas.GetLeft(Player2) + 10);
-                //Canvas.SetLeft(player2Bar, Canvas.GetLeft(player2Bar) + 10);
-            }
-            if (moveUp2) {
+            if (moveUp2)
                 Canvas.SetTop(Player2, Canvas.GetTop(Player2) - 7);
-                //Canvas.SetTop(player2Bar, Canvas.GetTop(player2Bar) - 7);
-            }
-            if (moveDown2) {
+            if (moveDown2)
                 Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 7);
-                //Canvas.SetTop(player2Bar, Canvas.GetTop(player2Bar) + 7);
-            }
 
+            
 
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
@@ -237,20 +250,20 @@ namespace BeatEmApp
 
             if (player1Rect.IntersectsWith(borderRRect))
             {
-                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderRight) - 61);
+                Canvas.SetLeft(Player1, Canvas.GetLeft(BorderRight) - 47);
             }
             if (player2Rect.IntersectsWith(borderRRect))
             {
-                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderRight) - 61);
+                Canvas.SetLeft(Player2, Canvas.GetLeft(BorderRight) - 47);
             }
 
             if (player1Rect.IntersectsWith(borderDRect))
             {
-                Canvas.SetTop(Player1, Canvas.GetTop(BorderDown) - 90);
+                Canvas.SetTop(Player1, Canvas.GetTop(BorderDown) - 68);
             }
             if (player2Rect.IntersectsWith(borderDRect))
             {
-                Canvas.SetTop(Player2, Canvas.GetTop(BorderDown) - 90);
+                Canvas.SetTop(Player2, Canvas.GetTop(BorderDown) - 68);
             }
 
             if (EnemyBar1.Value == 0)
@@ -264,13 +277,68 @@ namespace BeatEmApp
                 Enemies.Children.Remove(Enemy2Set);
                 respawnTimer.Start ();
             }
+            
+            if (AttackE1 == true)
+            {
+                AttackTimerE1.Start ();
+            }
+            if (AttackE2 == true)
+            {
+                AttackTimerE2.Start();
+            }
+
+
+
+
+            enemyMovement();
+            if (enemy1Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy1Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+            if (enemy2Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy2Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+
+
+
+            if(gameOver1 == true && gameOver2 == true)
+            {
+                Window GameOver = new GameOver(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
+                this.Visibility = Visibility.Hidden;
+                GameOver.Show();
+                GameTimer.Stop();
+            }
+
+            if(PlayerBar1.Value == 0)
+            {
+                gameOver1 = true;
+                
+                PlayerCanvas.Children.Remove(Player1);
+            }
+
+            if (PlayerBar2.Value == 0)
+            {
+                gameOver2 = true;
+                PlayerCanvas.Children.Remove(Player2);
+            }
 
         }
 
         private void enemy1Damage(object sender, EventArgs e)
         {
-            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 50, Canvas.GetTop(Player1), Player1.Width - 50, Player1.Height - 50);
-            Rect punchHitbox2 = new Rect(Canvas.GetLeft(Player2) - 50, Canvas.GetTop(Player2), Player2.Width - 50, Player2.Height - 50);
+            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 30, Canvas.GetTop(Player1), Player1.Width, Player1.Height);
+            Rect punchHitbox2 = new Rect(Canvas.GetLeft(Player2) + 15, Canvas.GetTop(Player2), Player2.Width + 10, Player2.Height);
+            
+
 
             Rect enemy1Rect = new Rect(Canvas.GetLeft(Enemy1) - 50, Canvas.GetTop(Enemy1), Enemy1.Width, Enemy1.Height);
 
@@ -304,10 +372,12 @@ namespace BeatEmApp
 
         private void enemy2Damage(object sender, EventArgs e)
         {
-            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 50, Canvas.GetTop(Player1), Player1.Width - 50, Player1.Height - 50);
-            Rect punchHitbox2 = new Rect(Canvas.GetLeft(Player2) - 50, Canvas.GetTop(Player2), Player2.Width - 50, Player2.Height - 50);
+            Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 30, Canvas.GetTop(Player1), Player1.Width, Player1.Height);
+            Rect punchHitbox2 = new Rect(Canvas.GetLeft(Player2) + 15, Canvas.GetTop(Player2), Player2.Width + 10, Player2.Height);
 
             Rect enemy2Rect = new Rect(Canvas.GetLeft(Enemy2) - 50, Canvas.GetTop(Enemy2), Enemy2.Width, Enemy2.Height);
+
+            
 
             if (playerAttack1)
             {
@@ -341,20 +411,28 @@ namespace BeatEmApp
             if (EnemyBar1.Value == 0)
             {
                 Enemies.Children.Add(Enemy1Set);
-                EnemyBar1.Value = 100;
+                EnemyBar1.Value = 30;
                 respawnTimer.Stop();
+
             }
 
             if (EnemyBar2.Value == 0)
             {
                 Enemies.Children.Add(Enemy2Set);
-                EnemyBar2.Value = 100;
+                EnemyBar2.Value = 30;
                 respawnTimer.Stop();
             }
         }
 
         private void enemyMovement()
         {
+            Rect borderLRect = new Rect(Canvas.GetLeft(BorderLeft), Canvas.GetTop(BorderLeft), BorderLeft.Width, BorderLeft.Height);
+            Rect borderRRect = new Rect(Canvas.GetLeft(BorderRight), Canvas.GetTop(BorderRight), BorderRight.Width, BorderRight.Height);
+            Rect enemy1Rect = new Rect(Canvas.GetLeft(Enemy1), Canvas.GetTop(Enemy1), Enemy1.Width, Enemy1.Height);
+            Rect enemy2Rect = new Rect(Canvas.GetLeft(Enemy2), Canvas.GetTop(Enemy2), Enemy2.Width, Enemy2.Height);
+            Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
+            Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
+
             var enemy1left = Canvas.GetLeft(Enemy1);
             var enemy2left = Canvas.GetLeft(Enemy2);
 
@@ -368,32 +446,132 @@ namespace BeatEmApp
             var player2Top = Canvas.GetTop(Player2);
 
             var distance = new Point(player1left - enemy1left, player1Top - enemy1Top);
+            
 
-            if (distance.X > 0 && distance.Y > 0)
-            {
 
-                Canvas.SetTop(Enemy1, Canvas.GetTop(Enemy1) + 10);
-                Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) + 10);
+            if (enemy1Rect.IntersectsWith(player1Rect) && gameOver1 == false)
+            {
+                InRange = true;
+            }
+            else 
+            {
+                InRange = false;
+            }
+            if (enemy1Rect.IntersectsWith(player2Rect) && gameOver2 == false)
+            {
+                InRange2 = true;
+            }
+            else 
+            { 
+                InRange2 = false; 
+            }
 
-            }
-            else if (distance.X < 0 && distance.Y < 0)
+            if (enemy1Rect.IntersectsWith(borderLRect))
             {
-                Canvas.SetTop(Enemy1, Canvas.GetTop(Enemy1) - 10);
-                Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) - 10);
+                GoLeft = false;
             }
-            else if (distance.X > 0 && distance.Y < 0)
+            else if (enemy1Rect.IntersectsWith(borderRRect))
             {
-                Canvas.SetTop(Enemy1, Canvas.GetTop(Enemy1) - 10);
-                Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) + 10);
+                GoLeft = true;
+            }
+            
+            if (EnemyBar1.Value != 0)
+            {
+                if (InRange == false && InRange2 == false && GoLeft == true && AttackE1 == false)
+                {
+                    Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) - 5);
+                    Canvas.SetLeft(EnemyBar1, Canvas.GetLeft(EnemyBar1) - 5);
+                }
+                else if (InRange == true || InRange2 == true && AttackE1 == false)
+                {
+                    AttackE1 = true;
+                    Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) + 50);
+                    Canvas.SetLeft(EnemyBar1, Canvas.GetLeft(EnemyBar1) + 50);
+                    if (InRange == true)
+                    {
+                        PlayerBar1.Value -= 10;
+                    }
+                    else if (InRange2 == true)
+                    {
+                        PlayerBar2.Value -= 10;
+                    }
 
+                }
+                else if (InRange == false && InRange2 == false && GoLeft == false && AttackE1 == false)
+                {
+                    Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) + 5);
+                    Canvas.SetLeft(EnemyBar1, Canvas.GetLeft(EnemyBar1) + 5);
+                }
             }
-            else if (distance.X < 0 && distance.Y > 0)
+
+            if (enemy2Rect.IntersectsWith(player1Rect) && gameOver2 == false)
             {
-                Canvas.SetTop(Enemy1, Canvas.GetTop(Enemy1) + 10);
-                Canvas.SetLeft(Enemy1, Canvas.GetLeft(Enemy1) - 10);
+                InRange = true;
             }
+            else
+            {
+                InRange = false;
+            }
+
+            if (enemy2Rect.IntersectsWith(player2Rect) && gameOver2 == false)
+            {
+                InRange2 = true;
+            }
+            else
+            {
+                InRange2 = false;
+            }
+
+            if (enemy2Rect.IntersectsWith(borderLRect))
+            {
+                GoLeft2 = false;
+            }
+            else if (enemy2Rect.IntersectsWith(borderRRect))
+            {
+                GoLeft2 = true;
+            }           
+            if (EnemyBar2.Value != 0)
+            {
+                if (InRange == false && InRange2 == false && GoLeft2 == true && AttackE2 == false)
+                {
+                    Canvas.SetLeft(Enemy2, Canvas.GetLeft(Enemy2) - 5);
+                    Canvas.SetLeft(EnemyBar2, Canvas.GetLeft(EnemyBar2) - 5);
+                }
+                else if (InRange == true || InRange2 == true && AttackE2 == false)
+                {
+                    AttackE2 = true;
+                    Canvas.SetLeft(Enemy2, Canvas.GetLeft(Enemy2) + 50);
+                    Canvas.SetLeft(EnemyBar2, Canvas.GetLeft(EnemyBar2) + 50);
+                    if (InRange == true)
+                    {
+                        PlayerBar1.Value -= 10;
+                    }
+                    else if (InRange2 == true)
+                    {
+                        PlayerBar2.Value -= 10;
+                    }
+
+                }
+                else if (InRange == false && InRange2 == false && GoLeft2 == false && AttackE2 == false)
+                {
+                    Canvas.SetLeft(Enemy2, Canvas.GetLeft(Enemy2) + 5);
+                    Canvas.SetLeft(EnemyBar2, Canvas.GetLeft(EnemyBar2) + 5);
+                }
+            }
+            
         }
 
+        public void PlayerDamage(object sender, EventArgs e)
+        {
+            if (AttackE1 == true)
+            {
+                AttackE1 = false;
+            }
+            else if(AttackE2 == true)
+            {
+                AttackE2 = false;
+            }
+        }
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
 
