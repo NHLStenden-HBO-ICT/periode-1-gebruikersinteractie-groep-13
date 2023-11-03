@@ -20,12 +20,20 @@ namespace BeatEmApp
     /// </summary>
     public partial class Quit : Window
     {
-        public Quit(String PlayerName, String Player2Name, string playerEmail, string player2Email, int player1Score, int player2Score)
+
+        int score;
+        int score2;
+
+        int player1Health;
+        int player2Health;
+        public Quit(String PlayerName, String Player2Name, string playerEmail, string player2Email, int player1Score, int player2Score, int PlayerLife, int Player2Life)
         {
             InitializeComponent();
 
             string scorePlayer = Convert.ToString(player1Score);
             string scorePlayer2 = Convert.ToString(player2Score);
+            score = player1Score;
+            score2 = player2Score;
             NamePlayer.Text = PlayerName;
             NamePlayer2.Text = Player2Name;
             PlayerScore.Text = scorePlayer;
@@ -33,11 +41,17 @@ namespace BeatEmApp
             Player_Email.Text = playerEmail;
             Player2_Email.Text = player2Email;
 
+            PlayerBar1.Value = PlayerLife;
+            PlayerBar2.Value = Player2Life;
+
+            player1Health = Convert.ToInt32(PlayerBar1.Value);
+            player2Health = Convert.ToInt32(PlayerBar2.Value);
+
         }
 
         public void OnClick1(object sender, RoutedEventArgs e)
         {
-            Window game = new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, true);
+            Window game = new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, score, score2, player1Health, player2Health, true);
             this.Visibility = Visibility.Hidden;
             game.Show();
         }

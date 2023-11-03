@@ -132,7 +132,7 @@ namespace BeatEmApp
         public void OnClick1(object sender, RoutedEventArgs e)
         {
 
-            Window Game = new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, false);
+            Window Game = new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, 0, 0, 50, 50, false);
             this.Visibility = Visibility.Hidden;
             Game.Show();
         }

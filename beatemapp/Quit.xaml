@@ -29,6 +29,7 @@
             <Button x:Name="Nee" Background="#F3C9A6" Content="nee" Click="OnClick4" HorizontalAlignment="Left" VerticalAlignment="Center" Height="32" Width="76" Canvas.Left="130" Canvas.Top="99"/>
         </Canvas>
         <TextBlock HorizontalAlignment="Left" Margin="600,206,0,0" TextWrapping="Wrap"  FontSize="20" Text=":" TextAlignment="Center" VerticalAlignment="Top" Height="34" Width="94"/>
-
+        <ProgressBar Name="PlayerBar1" Background="#586C70" Width="100" Height="20" Minimum="0" Maximum="50" Value="50" Foreground="Green" VerticalAlignment="Top" Canvas.Left="650" Visibility="Hidden" Canvas.Top="85" HorizontalAlignment="Left" />
+        <ProgressBar Name="PlayerBar2" Background="#586C70" Width="100" Height="20" Minimum="0" Maximum="50" Value="50" Foreground="Green" VerticalAlignment="Top" Canvas.Left="650" Visibility="Hidden" Canvas.Top="85" HorizontalAlignment="Left" />
     </Grid>
 </Window>
