@@ -26,7 +26,7 @@ namespace BeatEmApp
 
         private void OnClick1(object sender, RoutedEventArgs e)
         {
-           Window Game = new Game("null", "null", "null", "null", false);
+           Window Game = new Game("null", "null", "null", "null", 0, 0, 50, 50, false);
            this.Visibility = Visibility.Hidden;
            Game.Show();
         }
@@ -40,7 +40,7 @@ namespace BeatEmApp
 
         private void OnClick3(object sender, RoutedEventArgs e)
         {
-            Window Quit = new Quit("null", "null", "null", "null", 0, 0);
+            Window Quit = new Quit("null", "null", "null", "null", 0, 0, 0, 0);
             this.Visibility = Visibility.Hidden;
             Quit.Show();
         }

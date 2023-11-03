@@ -135,7 +135,7 @@ namespace BeatEmApp
         public void OnClick1(object sender, RoutedEventArgs e)
         {
 
-            this.NavigationService.Navigate(new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, true));
+            this.NavigationService.Navigate(new Game(NamePlayer.Text, NamePlayer2.Text, Player_Email.Text, Player2_Email.Text, 0, 0, 0, 0, true));
             this.Visibility = Visibility.Hidden;
         }
 

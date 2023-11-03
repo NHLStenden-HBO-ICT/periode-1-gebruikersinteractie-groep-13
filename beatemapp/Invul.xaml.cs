@@ -40,7 +40,7 @@ namespace BeatEmApp
                 bool isValid = validateEmails(EmailPlayer.Text, EmailPlayer2.Text);
                 if (isValid != false)
                 {
-                    Window Game = new Game(Nameplayer.Text, Nameplayer2.Text, EmailPlayer.Text, EmailPlayer2.Text, false);
+                    Window Game = new Game(Nameplayer.Text, Nameplayer2.Text, EmailPlayer.Text, EmailPlayer2.Text, 0, 0, 50, 50, false);
                     this.Visibility = Visibility.Hidden;
                     InsertData(Nameplayer.Text, EmailPlayer.Text, Nameplayer2.Text, EmailPlayer2.Text);
                     Game.Show();

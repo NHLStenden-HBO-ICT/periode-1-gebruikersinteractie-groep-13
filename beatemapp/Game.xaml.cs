@@ -45,8 +45,10 @@ namespace BeatEmApp
         int Testscore1;
         int testscore2;
         //int i= 0;
-        int player1Health = 100;
-        int player2Health = 100;
+
+        int player1Health;
+        int player2Health;
+
         private double enemySpeed = 2;
         private double enemyPosition = 0;
 
@@ -63,12 +65,31 @@ namespace BeatEmApp
         //bool GoRight = false;
 
 
-        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, bool MenuOn)
+
+        public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, int ScorePlayer, int scorePlayer2, int PlayerLife, int Player2Life, bool MenuOn)
+
         {
             InitializeComponent();
 
-           string name = PlayerName;
-           string name2 = Player2Name;
+            string name = PlayerName;
+            string name2 = Player2Name;
+
+
+            Testscore1 = ScorePlayer;
+            testscore2 = scorePlayer2;
+
+            PlayerBar1.Value = PlayerLife;
+            PlayerBar2.Value = Player2Life;
+
+            player1Health = Convert.ToInt32(PlayerBar1.Value);
+            player2Health = Convert.ToInt32(PlayerBar2.Value);
+
+            string score = Convert.ToString(Testscore1);
+            Player_contents.Text = score;
+
+            string score2 = Convert.ToString(testscore2);
+            Player2_contents.Text = score2;
+
 
             Menu = MenuOn;
 
@@ -78,8 +99,7 @@ namespace BeatEmApp
             Player2_email.Text = Player2Email;
 
 
-            
-            
+
 
 
             if (MenuOn == true)
@@ -87,7 +107,21 @@ namespace BeatEmApp
                 Menuscreen.Visibility = Visibility.Visible;
                 menu.IsEnabled = false;
                 this.Background.Opacity = 0.5;
-            } else
+
+                if (PlayerBar1.Value == 0)
+                {
+                    gameOver1 = true;
+
+                    PlayerCanvas.Children.Remove(Player1);
+                }
+
+                if (PlayerBar2.Value == 0)
+                {
+                    gameOver2 = true;
+                    PlayerCanvas.Children.Remove(Player2);
+                }
+            }
+            else
             {
                 GameTimer.Interval = TimeSpan.FromMilliseconds(20);
                 GameTimer.Tick += GameEngine;
@@ -101,15 +135,17 @@ namespace BeatEmApp
                 invincibleFrame2.Tick += enemy2Damage;
                 invincibleFrame2.Start();
 
-                
+
 
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
 
-                AttackTimerE1.Interval = TimeSpan.FromSeconds(2);
+
+                AttackTimerE1.Interval = TimeSpan.FromSeconds(4);
                 AttackTimerE1.Tick += PlayerDamage;
 
-                AttackTimerE2.Interval = TimeSpan.FromSeconds(2);
+                AttackTimerE2.Interval = TimeSpan.FromSeconds(4);
+
                 AttackTimerE2.Tick += PlayerDamage;
             }
 
@@ -122,6 +158,7 @@ namespace BeatEmApp
             Menuscreen.Visibility = Visibility.Visible;
             menu.IsEnabled = false;
             this.Background.Opacity = 0.5;
+            GameTimer.Stop();
         }
 
         private void OnClick2(object sender, RoutedEventArgs e)
@@ -132,9 +169,13 @@ namespace BeatEmApp
 
             if (Menu == true)
             {
+
                 GameTimer.Interval = TimeSpan.FromMilliseconds(20);
                 GameTimer.Tick += GameEngine;
                 Menu = false;
+
+                PlayerBar1.Value = player1Health;
+                PlayerBar2.Value = player2Health;
 
                 invincibleFrame.Interval = TimeSpan.FromMilliseconds(500);
                 invincibleFrame.Tick += enemy1Damage;
@@ -146,7 +187,14 @@ namespace BeatEmApp
 
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
-                
+
+
+                AttackTimerE1.Interval = TimeSpan.FromSeconds(4);
+                AttackTimerE1.Tick += PlayerDamage;
+
+                AttackTimerE2.Interval = TimeSpan.FromSeconds(4);
+                AttackTimerE2.Tick += PlayerDamage;
+
             }
             GameTimer.Start();
 
@@ -187,7 +235,7 @@ namespace BeatEmApp
         }
         private void OnClick4(object sender, RoutedEventArgs e)
         {
-            Window Quit = new Quit(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
+            Window Quit = new Quit(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2, player1Health, player2Health);
             this.Visibility = Visibility.Hidden;
             Quit.Show();
         }
@@ -218,7 +266,10 @@ namespace BeatEmApp
             if (moveDown2)
                 Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 7);
 
-            
+
+            player1Health = Convert.ToInt32(PlayerBar1.Value);
+            player2Health = Convert.ToInt32(PlayerBar2.Value);
+
 
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
@@ -275,7 +326,60 @@ namespace BeatEmApp
             if (EnemyBar2.Value == 0)
             {
                 Enemies.Children.Remove(Enemy2Set);
-                respawnTimer.Start ();
+                respawnTimer.Start();
+            }
+
+            if (AttackE1 == true)
+            {
+                AttackTimerE1.Start();
+            }
+            if (AttackE2 == true)
+            {
+                AttackTimerE2.Start();
+            }
+
+
+
+
+            enemyMovement();
+            if (enemy1Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy1Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+            if (enemy2Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy2Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+
+
+
+            if (gameOver1 == true && gameOver2 == true)
+            {
+                Window GameOver = new GameOver(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
+                this.Visibility = Visibility.Hidden;
+                GameOver.Show();
+                GameTimer.Stop();
+            }
+
+            if (PlayerBar1.Value == 0)
+            {
+                gameOver1 = true;
+
+                PlayerCanvas.Children.Remove(Player1);
+            }
+
+            if (PlayerBar2.Value == 0)
+            {
+                gameOver2 = true;
+                PlayerCanvas.Children.Remove(Player2);
             }
             
             if (AttackE1 == true)
@@ -337,7 +441,7 @@ namespace BeatEmApp
         {
             Rect punchHitbox = new Rect(Canvas.GetLeft(Player1) - 30, Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect punchHitbox2 = new Rect(Canvas.GetLeft(Player2) + 15, Canvas.GetTop(Player2), Player2.Width + 10, Player2.Height);
-            
+
 
 
             Rect enemy1Rect = new Rect(Canvas.GetLeft(Enemy1) - 50, Canvas.GetTop(Enemy1), Enemy1.Width, Enemy1.Height);
@@ -348,10 +452,10 @@ namespace BeatEmApp
 
                 if (punchHitbox.IntersectsWith(enemy1Rect))
                 {
-                  Testscore1 += 50;
-                  EnemyBar1.Value -= 10;
-                  string score = Convert.ToString(Testscore1);
-                  Player_contents.Text = score;
+                    Testscore1 += 50;
+                    EnemyBar1.Value -= 10;
+                    string score = Convert.ToString(Testscore1);
+                    Player_contents.Text = score;
                 }
             }
 
@@ -377,19 +481,19 @@ namespace BeatEmApp
 
             Rect enemy2Rect = new Rect(Canvas.GetLeft(Enemy2) - 50, Canvas.GetTop(Enemy2), Enemy2.Width, Enemy2.Height);
 
-            
+
 
             if (playerAttack1)
             {
                 Player1.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(88, 108, 112));
-                
+
                 if (punchHitbox.IntersectsWith(enemy2Rect))
-                    {
-                        Testscore1 += 50;
-                        EnemyBar2.Value -= 10;
-                        string score = Convert.ToString(Testscore1);
-                        Player_contents.Text = score;
-                    }
+                {
+                    Testscore1 += 50;
+                    EnemyBar2.Value -= 10;
+                    string score = Convert.ToString(Testscore1);
+                    Player_contents.Text = score;
+                }
             }
 
             if (playerAttack2)
@@ -449,11 +553,13 @@ namespace BeatEmApp
             
 
 
+
+
             if (enemy1Rect.IntersectsWith(player1Rect) && gameOver1 == false)
             {
                 InRange = true;
             }
-            else 
+            else
             {
                 InRange = false;
             }
@@ -461,9 +567,9 @@ namespace BeatEmApp
             {
                 InRange2 = true;
             }
-            else 
-            { 
-                InRange2 = false; 
+            else
+            {
+                InRange2 = false;
             }
 
             if (enemy1Rect.IntersectsWith(borderLRect))
@@ -474,7 +580,7 @@ namespace BeatEmApp
             {
                 GoLeft = true;
             }
-            
+
             if (EnemyBar1.Value != 0)
             {
                 if (InRange == false && InRange2 == false && GoLeft == true && AttackE1 == false)
@@ -529,7 +635,7 @@ namespace BeatEmApp
             else if (enemy2Rect.IntersectsWith(borderRRect))
             {
                 GoLeft2 = true;
-            }           
+            }
             if (EnemyBar2.Value != 0)
             {
                 if (InRange == false && InRange2 == false && GoLeft2 == true && AttackE2 == false)
@@ -558,7 +664,8 @@ namespace BeatEmApp
                     Canvas.SetLeft(EnemyBar2, Canvas.GetLeft(EnemyBar2) + 5);
                 }
             }
-            
+
+
         }
 
         public void PlayerDamage(object sender, EventArgs e)
@@ -567,7 +674,8 @@ namespace BeatEmApp
             {
                 AttackE1 = false;
             }
-            else if(AttackE2 == true)
+            else if (AttackE2 == true)
+
             {
                 AttackE2 = false;
             }
@@ -578,45 +686,45 @@ namespace BeatEmApp
             if (e.Key == Key.J)
             {
 
-                    moveLeft2 = true;
+                moveLeft2 = true;
             }
 
             if (e.Key == Key.L)
             {
 
-                    moveRight2 = true;
+                moveRight2 = true;
             }
 
             if (e.Key == Key.I)
             {
 
-                    moveUp2 = true;
+                moveUp2 = true;
 
             }
 
             if (e.Key == Key.K)
             {
-                    moveDown2 = true;
+                moveDown2 = true;
             }
 
             if (e.Key == Key.A)
             {
-                    moveLeft = true;
+                moveLeft = true;
             }
 
             if (e.Key == Key.D)
             {
-                    moveRight = true;
+                moveRight = true;
             }
 
             if (e.Key == Key.W)
             {
-                    moveUp = true;
+                moveUp = true;
             }
 
             if (e.Key == Key.S)
             {
-                    moveDown = true;
+                moveDown = true;
             }
 
             if (e.Key == Key.R)
@@ -673,17 +781,17 @@ namespace BeatEmApp
 
             if (e.Key == Key.D)
             {
-                moveRight= false;
+                moveRight = false;
             }
 
             if (e.Key == Key.W)
             {
-                moveUp= false;
+                moveUp = false;
             }
 
             if (e.Key == Key.S)
             {
-                moveDown= false;
+                moveDown = false;
             }
 
             if (e.Key == Key.P)
