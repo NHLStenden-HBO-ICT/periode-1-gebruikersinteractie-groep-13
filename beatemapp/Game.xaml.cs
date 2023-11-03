@@ -45,8 +45,10 @@ namespace BeatEmApp
         int Testscore1;
         int testscore2;
         //int i= 0;
+
         int player1Health;
         int player2Health;
+
         private double enemySpeed = 2;
         private double enemyPosition = 0;
 
@@ -63,7 +65,9 @@ namespace BeatEmApp
         //bool GoRight = false;
 
 
+
         public Game(String PlayerName, String Player2Name, string PlayerEmail, string Player2Email, int ScorePlayer, int scorePlayer2, int PlayerLife, int Player2Life, bool MenuOn)
+
         {
             InitializeComponent();
 
@@ -93,7 +97,6 @@ namespace BeatEmApp
             NamePlayer2.Text = name2;
             Player_email.Text = PlayerEmail;
             Player2_email.Text = Player2Email;
-
 
 
 
@@ -137,10 +140,12 @@ namespace BeatEmApp
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
 
+
                 AttackTimerE1.Interval = TimeSpan.FromSeconds(4);
                 AttackTimerE1.Tick += PlayerDamage;
 
                 AttackTimerE2.Interval = TimeSpan.FromSeconds(4);
+
                 AttackTimerE2.Tick += PlayerDamage;
             }
 
@@ -182,6 +187,7 @@ namespace BeatEmApp
 
                 respawnTimer.Interval = TimeSpan.FromSeconds(2);
                 respawnTimer.Tick += RespawnEnemy;
+
 
                 AttackTimerE1.Interval = TimeSpan.FromSeconds(4);
                 AttackTimerE1.Tick += PlayerDamage;
@@ -242,7 +248,7 @@ namespace BeatEmApp
 
         private void GameEngine(object sender, EventArgs e)
         {
-
+            
             if (moveLeft)
                 Canvas.SetLeft(Player1, Canvas.GetLeft(Player1) - 10);
             if (moveRight)
@@ -260,8 +266,10 @@ namespace BeatEmApp
             if (moveDown2)
                 Canvas.SetTop(Player2, Canvas.GetTop(Player2) + 7);
 
+
             player1Health = Convert.ToInt32(PlayerBar1.Value);
             player2Health = Convert.ToInt32(PlayerBar2.Value);
+
 
             Rect player1Rect = new Rect(Canvas.GetLeft(Player1), Canvas.GetTop(Player1), Player1.Width, Player1.Height);
             Rect player2Rect = new Rect(Canvas.GetLeft(Player2), Canvas.GetTop(Player2), Player2.Width, Player2.Height);
@@ -365,6 +373,59 @@ namespace BeatEmApp
             {
                 gameOver1 = true;
 
+                PlayerCanvas.Children.Remove(Player1);
+            }
+
+            if (PlayerBar2.Value == 0)
+            {
+                gameOver2 = true;
+                PlayerCanvas.Children.Remove(Player2);
+            }
+            
+            if (AttackE1 == true)
+            {
+                AttackTimerE1.Start ();
+            }
+            if (AttackE2 == true)
+            {
+                AttackTimerE2.Start();
+            }
+
+
+
+
+            enemyMovement();
+            if (enemy1Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy1Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+            if (enemy2Rect.IntersectsWith(groundRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderGame));
+            }
+            if (enemy2Rect.IntersectsWith(borderDRect))
+            {
+                Canvas.SetTop(Enemy1, Canvas.GetTop(BorderDown) - 68);
+            }
+
+
+
+            if(gameOver1 == true && gameOver2 == true)
+            {
+                Window GameOver = new GameOver(NamePlayer.Text, NamePlayer2.Text, Player_email.Text, Player2_email.Text, Testscore1, testscore2);
+                this.Visibility = Visibility.Hidden;
+                GameOver.Show();
+                GameTimer.Stop();
+            }
+
+            if(PlayerBar1.Value == 0)
+            {
+                gameOver1 = true;
+                
                 PlayerCanvas.Children.Remove(Player1);
             }
 
@@ -489,6 +550,8 @@ namespace BeatEmApp
             var player2Top = Canvas.GetTop(Player2);
 
             var distance = new Point(player1left - enemy1left, player1Top - enemy1Top);
+            
+
 
 
 
@@ -602,6 +665,7 @@ namespace BeatEmApp
                 }
             }
 
+
         }
 
         public void PlayerDamage(object sender, EventArgs e)
@@ -611,6 +675,7 @@ namespace BeatEmApp
                 AttackE1 = false;
             }
             else if (AttackE2 == true)
+
             {
                 AttackE2 = false;
             }
